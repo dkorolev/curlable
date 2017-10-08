@@ -39,7 +39,7 @@
   ],
   "main": "lib/curlable.js",
   "bin": {
-    "curlable": "curlable.js"
+    "curlable": "./curlable.js"
   },
   "scripts": {
     "test": "node_modules/mocha/bin/mocha"
