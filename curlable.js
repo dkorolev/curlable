@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 const program = require('commander');
@@ -26,7 +28,7 @@ if (options.prompt) {
   process.stderr.write('Multiline output mode, prompt: `' + options.prompt + '`.\n');
 }
 
-const instance = new curlable.Curlable(cmdline, options, (msg) => { process.stderr.write(msg + '\n'); });
+const instance = new curlable.Curlable(cmdline, options, (s) => { process.stderr.write(s); });
 
 curlable.readStreamByLines(process.stdin, (line) => {
   if (instance.ready) {
