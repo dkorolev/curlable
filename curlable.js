@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 const program = require('commander');
@@ -17,13 +19,13 @@ let cmdline = program.cmdline || 'bc -l'; // `bc -l` is a good default. -- D.K.
 let port = program.port || 8000;
 let route = program.route || '/';
 
-console.error('Making `' + cmdline + '` curlable.');
+process.stderr.write('Making `' + cmdline + '` curlable.\n');
 
-const instance = new curlable.curlable(cmdline, console.warn);
+const instance = new curlable.Curlable(cmdline, (msg) => { process.stderr.write(msg + '\n'); });
 
 curlable.readStreamByLines(process.stdin, (line) => {
   instance.runQuery(line, (result) => {
-    console.log(result);
+    process.stdout.write(result + '\n');
   });
 });
 
@@ -33,10 +35,10 @@ app.use(bodyParser.text({
 }));
 
 instance.registerRoutes(app, route, port, () => {
-  console.error('Quitting the binary due to an extenal DELETE request.');
+  process.stderr.write('Quitting the binary due to an extenal DELETE request.\n');
   server.close();
   process.exit(0);
 });
 
 let server = app.listen(port);
-console.warn('Service started, listening on port ' + port + '.');
+process.stderr.write('Service started, listening on port ' + port + '.\n');

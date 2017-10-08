@@ -18,11 +18,6 @@
     "url": "http://dimakorolev.com/",
     "name": "Dima Korolev"
   },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ],
   "license": "MIT",
   "tags": [
     "curl",
@@ -42,7 +37,8 @@
     "bash",
     "shell"
   ],
-  "main": "curlable.js",
+  "main": "lib/curlable.js",
+  "bin": "curlable.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha"
   },

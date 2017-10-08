@@ -12,7 +12,7 @@ app.use(bodyParser.text({
 }));
 
 describe('cat [ by lines ]', function() {
-  const instance = new curlable.curlable('cat');  // , () => {});
+  const instance = new curlable.Curlable('cat');  // , () => {});
   instance.registerRoutes(app, '/cat');  //, 8000, '/');
   it('GET should return a prompt', function(done) {
     request(app)
@@ -36,7 +36,7 @@ describe('cat [ by lines ]', function() {
 });
 
 describe('bc -l [ by lines ]', function() {
-  const instance = new curlable.curlable('bc -l', () => {});
+  const instance = new curlable.Curlable('bc -l', () => {});
   instance.registerRoutes(app, '/bc');  //, 8000, '/');
   it('GET should return a prompt', function(done) {
     request(app)

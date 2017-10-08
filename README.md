@@ -14,7 +14,7 @@ $ curl -d '2 ^ 10' localhost:8000 && curl -x DELETE localhost:8000  # In another
 You should see:
 
 ```
-dima ~/github/dkorolev/curlable (dev) $ node curlable.js
+$ node curlable.js
 Making `bc -l` curlable.
 Service started, listening on port 8000.
 UGKE-ECRX	-	2 ^ 10
@@ -25,7 +25,7 @@ Quitting the binary due to an extenal DELETE request.
 ```
 
 ```
-dima ~ $ curl -d '2 ^ 10' localhost:8000 && curl -X DELETE localhost:8000
+$ curl -d '2 ^ 10' localhost:8000 && curl -X DELETE localhost:8000
 1024
 Terminating.
 ```
