@@ -19,8 +19,6 @@ Making `bc -l` curlable.
 Service started, listening on port 8000.
 UGKE-ECRX	-	2 ^ 10
 UGKE-ECRX	1ms	1024
-FREB-EZYC	-	2 ^ 10
-FREB-EZYC	0ms	1024
 DELETE request received. Stopping the external service.
 External service stopped.
 Quitting the binary due to an extenal DELETE request.
@@ -40,7 +38,7 @@ The supported command line parameters are:
 2. `-p`: The port to spawn the tool on, defaults to 8000.
 3. `-r`: The route to listen on, defaults to `/`.
 
-## Running tests
+## Running the Tests
 
 ```
 $ npm i
