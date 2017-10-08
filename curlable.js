@@ -13,20 +13,31 @@ program
   .option('-c, --cmdline <cmdline>', 'The command to run.')
   .option('-p, --port <port>', 'Post to listen on.', parseInt)
   .option('-r, --route <route>', 'The route to serve the command on.')
+  .option('-q, --prompt <prompt>', 'The ready-to-process prompt, for multiline outputs.')
   .parse(process.argv);
 
 let cmdline = program.cmdline || 'bc -l'; // `bc -l` is a good default. -- D.K.
 let port = program.port || 8000;
 let route = program.route || '/';
+let options = {
+  prompt: program.prompt || null,
+};
 
 process.stderr.write('Making `' + cmdline + '` curlable.\n');
+if (options.prompt) {
+  process.stderr.write('Multiline output mode, prompt: `' + options.prompt + '`.\n');
+}
 
-const instance = new curlable.Curlable(cmdline, (msg) => { process.stderr.write(msg + '\n'); });
+const instance = new curlable.Curlable(cmdline, options, (s) => { process.stderr.write(s); });
 
 curlable.readStreamByLines(process.stdin, (line) => {
-  instance.runQuery(line, (result) => {
-    process.stdout.write(result + '\n');
-  });
+  if (instance.ready) {
+    instance.runQuery(line, (result) => {
+      process.stdout.write(result);
+    });
+  } else {
+    process.stdout.write('Not yet available, waiting for the welcome prompt.\n');
+  }
 });
 
 var app = express();

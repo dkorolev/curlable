@@ -1,6 +1,6 @@
 {
   "name": "curlable",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "A simple wrapper to turn [stateless] command-line utilities into HTTP endpoints.",
   "homepage": "https://github.com/dkorolev/curlable",
   "repository": {
