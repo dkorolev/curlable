@@ -18,7 +18,7 @@ describe('cat [ by lines ]', function() {
     request(app)
       .get('/cat')
       .expect(405)
-      .expect('Need POST (`curl -d ... $URL`) or DELETE (`curl -X DELETE ...`).\n', done);
+      .expect('Need POST (`curl -d "..." $URL`) or DELETE (`curl -X DELETE ...`).\n', done);
   });
   it('POST `2 ^ 10` returns `2 ^ 10`', function(done) {
     request(app)
