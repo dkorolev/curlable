@@ -26,6 +26,36 @@ describe('cat [ by lines ]', function() {
       .send('2 ^ 10')
       .expect(200, '2 ^ 10\n', done);
   });
+  it('POST ignores blank lines', function(done) {
+    request(app)
+      .post('/cat')
+      .send('\ntest\n')
+      .expect(200, 'test\n', done);
+  });
+  it('POST ignores lines full of whitespaces', function(done) {
+    request(app)
+      .post('/cat')
+      .send('   \n\t\t\t\n \t \t \t\n\n\n\npassed\n   \n\t\t\t\n\t \t \t \n')
+      .expect(200, 'passed\n', done);
+  });
+  it('POST does not accept an empty query', function(done) {
+    request(app)
+      .post('/cat')
+      .send('')
+      .expect(200, 'Need a nonempty query.\n', done);
+  });
+  it('POST does not accept a whitespace-only query', function(done) {
+    request(app)
+      .post('/cat')
+      .send('  \n   \n\t\t\t\n   ')
+      .expect(200, 'Need a nonempty query.\n', done);
+  });
+  it('POST does not accept a multiline query', function(done) {
+    request(app)
+      .post('/cat')
+      .send('foo\nbar')
+      .expect(200, 'Need a single-line query.\n', done);
+  });
   it('DELETE tears down', function(done) {
     request(app)
       .del('/cat')
@@ -49,11 +79,11 @@ describe('bc -l [ by lines ]', function() {
   });
 });
 
-const cmd_with_welcome = 'echo INITIALIZING ; sleep 0.5 ; echo DONE ; ' +
+const cmdWithWelcome = 'echo INITIALIZING ; sleep 0.5 ; echo DONE ; ' +
   'while true; do echo WELCOME ; read line ; echo test ; echo $line ; echo passed ; done';
 
 describe('echo "test\\n$input\\npassed" [ with a welcome prompt ]', function() {
-  const instance = new curlable.Curlable(cmd_with_welcome, { prompt: 'WELCOME' });
+  const instance = new curlable.Curlable(cmdWithWelcome, { prompt: 'WELCOME' });
   instance.registerRoutes(app, '/welcome');
   it('an early POST returns `503 Service Unavailable`', function(done) {
     request(app)
