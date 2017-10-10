@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const curlable = require('./lib/curlable.js');
 
 program
-  .version('0.0.1')
+  .version('0.0.6')
   .option('-c, --cmdline <cmdline>', 'The command to run.')
   .option('-p, --port <port>', 'Post to listen on.', parseInt)
   .option('-r, --route <route>', 'The route to serve the command on.')
