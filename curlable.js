@@ -9,17 +9,17 @@ const bodyParser = require('body-parser');
 const curlable = require('./lib/curlable.js');
 
 program
-  .version('0.0.6')
+  .version('0.0.7')
   .option('-c, --cmdline <cmdline>', 'The command to run.')
   .option('-p, --port <port>', 'Post to listen on.', parseInt)
   .option('-r, --route <route>', 'The route to serve the command on.')
   .option('-q, --prompt <prompt>', 'The ready-to-process prompt, for multiline outputs.')
   .parse(process.argv);
 
-let cmdline = program.cmdline || 'bc -l'; // `bc -l` is a good default. -- D.K.
-let port = program.port || 8000;
-let route = program.route || '/';
-let options = {
+const cmdline = program.cmdline || 'bc -l'; // `bc -l` is a good default. -- D.K.
+const port = program.port || 8000;
+const route = program.route || '/';
+const options = {
   prompt: program.prompt || null,
 };
 
@@ -40,7 +40,7 @@ curlable.readStreamByLines(process.stdin, (line) => {
   }
 });
 
-var app = express();
+const app = express();
 app.use(bodyParser.text({
   type: '*/*'
 }));
