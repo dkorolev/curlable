@@ -15,8 +15,8 @@ You should see:
 
 ```
 $ ./curlable.js -c 'bc -l'
-Making `bc -l` curlable.
-Service started, listening on port 8000.
+Making `bc -l` curlable at http://localhost:8000/
+Service started.
 UGKE-ECRX	-	2 ^ 10
 UGKE-ECRX	1ms	1024
 DELETE request received. Stopping the external service.

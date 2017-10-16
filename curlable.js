@@ -35,11 +35,12 @@ if (!cmdline || !isFinite(port) || !/^\//.test(route)) {
   process.exit(1);
 }
 
+const publicUrl = 'http://localhost:' + port + route;
+
 let server;
 const options = {
   prompt: program.prompt || null,
   logger: (s) => { process.stderr.write(s); },
-  baseUrl: 'http://localhost:' + port,
   terminationCallback: () => {
     // Exit on next tick to let the middleware to respond to the DELETE request.
     process.nextTick(() => {
@@ -52,7 +53,7 @@ const options = {
   },
 };
 
-process.stderr.write('Making `' + cmdline + '` curlable.\n');
+process.stderr.write('Making `' + cmdline + '` curlable at ' + publicUrl + '\n');
 if (options.prompt) {
   process.stderr.write('Multiline output mode, prompt: `' + options.prompt + '`.\n');
 }
@@ -77,9 +78,7 @@ curlable.readStreamByLines(
 );
 
 const app = express();
-
-app.use(route, curlable.makeCurlableExpressMiddleware(instance, 'http://localhost:' + port));
-
+app.use(route, curlable.makeCurlableExpressMiddleware(instance, publicUrl));
 server = http.createServer(app);
 const onListeningError = () => {
   process.stderr.write('Failed to listen on port ' + port + '.\n');
@@ -88,6 +87,6 @@ const onListeningError = () => {
 server.on('error', onListeningError);
 server.on('listening', () => {
   server.removeListener('error', onListeningError);
-  process.stderr.write('Service started, listening on port ' + port + '.\n');
+  process.stderr.write('Service started.\n');
 });
 server.listen(port);
