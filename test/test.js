@@ -6,14 +6,21 @@ const bodyParser = require('body-parser');
 
 const curlable = require('../lib/curlable.js');
 
-const app = express();
-app.use(bodyParser.text({
-  type: '*/*'
-}));
 
 describe('cat [ by lines ]', function() {
-  const instance = new curlable.Curlable('cat');
-  instance.registerRoutes(app, '/cat');
+  let instance;
+  let app;
+
+  before(function() {
+    instance = new curlable.Curlable('cat');
+    app = express();
+    app.use('/cat', curlable.makeCurlableExpressMiddleware(instance));
+  });
+
+  after(function() {
+    instance.kill();
+  });
+
   it('GET returns a hint to use POST', function(done) {
     request(app)
       .get('/cat')
@@ -42,19 +49,19 @@ describe('cat [ by lines ]', function() {
     request(app)
       .post('/cat')
       .send('')
-      .expect(200, 'Need a nonempty query.\n', done);
+      .expect(500, 'Need a nonempty query.\n', done);
   });
   it('POST does not accept a whitespace-only query', function(done) {
     request(app)
       .post('/cat')
       .send('  \n   \n\t\t\t\n   ')
-      .expect(200, 'Need a nonempty query.\n', done);
+      .expect(500, 'Need a nonempty query.\n', done);
   });
   it('POST does not accept a multiline query', function(done) {
     request(app)
       .post('/cat')
       .send('foo\nbar')
-      .expect(200, 'Need a single-line query.\n', done);
+      .expect(500, 'Need a single-line query.\n', done);
   });
   it('DELETE tears down', function(done) {
     request(app)
@@ -64,8 +71,19 @@ describe('cat [ by lines ]', function() {
 });
 
 describe('bc -l [ by lines ]', function() {
-  const instance = new curlable.Curlable('bc -l');
-  instance.registerRoutes(app, '/bc');
+  let instance;
+  let app;
+
+  before(function() {
+    instance = new curlable.Curlable('bc -l');
+    app = express();
+    app.use('/bc', curlable.makeCurlableExpressMiddleware(instance));
+  });
+
+  after(function() {
+    instance.kill();
+  });
+
   it('POST `2 ^ 10` returns `1024`', function(done) {
     request(app)
       .post('/bc')
@@ -83,8 +101,19 @@ const cmdWithWelcome = 'echo INITIALIZING ; sleep 0.5 ; echo DONE ; ' +
   'while true; do echo WELCOME ; read line ; echo test ; echo $line ; echo passed ; done';
 
 describe('echo "test\\n$input\\npassed" [ with a welcome prompt ]', function() {
-  const instance = new curlable.Curlable(cmdWithWelcome, { prompt: 'WELCOME' });
-  instance.registerRoutes(app, '/welcome');
+  let instance;
+  let app;
+
+  before(function() {
+    instance = new curlable.Curlable(cmdWithWelcome, { prompt: 'WELCOME' });
+    app = express();
+    app.use('/welcome', curlable.makeCurlableExpressMiddleware(instance));
+  });
+
+  after(function() {
+    instance.kill();
+  });
+
   it('an early POST returns `503 Service Unavailable`', function(done) {
     request(app)
       .post('/welcome')

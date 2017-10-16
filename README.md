@@ -1,20 +1,20 @@
 # curlable
 
-A simple wrapper to turn [stateless] command-line utilities into HTTP endpoints.
+A simple wrapper to turn stateless command-line utilities into HTTP endpoints.
 
 ## Example
 
 TL;DR:
 
 ```
-$ node curlable.js                                                  # In one terminal.
+$ ./curlable.js -c 'bc -l'                                          # In one terminal.
 $ curl -d '2 ^ 10' localhost:8000 && curl -x DELETE localhost:8000  # In another terminal.
 ```
 
 You should see:
 
 ```
-$ node curlable.js
+$ ./curlable.js -c 'bc -l'
 Making `bc -l` curlable.
 Service started, listening on port 8000.
 UGKE-ECRX	-	2 ^ 10
@@ -34,13 +34,13 @@ Terminating.
 
 The supported command line parameters are:
 
-1. `-c`: The external command to `curl`-ify, defaults to `bc -l`.
-2. `-p`: The port to spawn the tool on, defaults to 8000.
+1. `-c`: The external command to `curl`-ify.
+2. `-p`: The port to spawn the tool on, defaults to `8000`.
 3. `-r`: The route to listen on, defaults to `/`.
 
 ## Running the Tests
 
 ```
-$ npm i
-$ npm run test  # or `make`
+$ npm install
+$ npm test  # or `make`
 ```
