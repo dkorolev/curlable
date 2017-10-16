@@ -16,6 +16,7 @@ You should see:
 ```
 $ ./curlable.js -c 'bc -l'
 Making `bc -l` curlable at http://localhost:8000/
+Spawned `/bin/bash` with `bc -l`, PID 12266
 Service started.
 UGKE-ECRX	-	2 ^ 10
 UGKE-ECRX	1ms	1024
