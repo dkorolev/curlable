@@ -3,4 +3,4 @@
 .PHONY: test
 
 test:
-	npm run test
+	npm test

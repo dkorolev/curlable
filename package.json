@@ -1,7 +1,7 @@
 {
   "name": "curlable",
-  "version": "0.0.7",
-  "description": "A simple wrapper to turn [stateless] command-line utilities into HTTP endpoints.",
+  "version": "0.0.8",
+  "description": "A simple wrapper to turn stateless command-line utilities into HTTP endpoints.",
   "homepage": "https://github.com/dkorolev/curlable",
   "repository": {
     "url": "git@github.com:dkorolev/curlable.git",
@@ -9,9 +9,6 @@
   },
   "bugs": {
     "url": "https://github.com/dkorolev/curlable/issues"
-  },
-  "engines": {
-    "node": ">= 0.8.6"
   },
   "author": {
     "email": "dmitry.korolev@gmail.com",
@@ -42,14 +39,20 @@
     "curlable": "./curlable.js"
   },
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "nyc --reporter=html --reporter=text --all mocha"
+  },
+  "engines": {
+    "node": ">= 6"
   },
   "dependencies": {
-    "commander": "*",
-    "express": "*",
-    "body-parser": "*",
-    "mocha": "*",
-    "supertest": "*",
-    "tree-kill": "*"
+    "commander": "2.11.0",
+    "express": "4.16.2",
+    "body-parser": "1.18.2",
+    "tree-kill": "1.2.0"
+  },
+  "devDependencies": {
+    "mocha": "4.0.1",
+    "nyc": "11.2.1",
+    "supertest": "3.0.0"
   }
 }
